@@ -1,48 +1,48 @@
-#!/usr/bin/pyton3
-"""Defiantion for a student class
+
+#!/usr/bin/python3
+"""
+    10-student: class Student
 """
 
 
 class Student:
-   """a class for a student
-   """
-
-   def __init__(self, first_name, last_name, age):
-       """Initalizes a student object
-       """
-
-       self.first_name = first_name
-       self.last_name = last_name
-       self.age = age
-
-   def to_json(self, attrs=None):
-       """returns a json representatiion of
-       the object
-       """
-
-       if attrs != None and not isinstance(attrs, list):
-           raise TypeError("attrs must me a list of strings")
-
-       if attrs != None and any(not isinstance(attr, str) for attr in attrs):
-           raise TypeError("attrs must me a list of strings")
-
-       if attrs == None:
-           return self.__dict__
-
-       json_dic = {}
-       for key in attrs:
-           if key in self.__dict__.keys():
-               json_dic[key] = self.__dict__[key]
-
-       return json_dic
-
-    def relod_from_json(self, json):
-    """replaces object's attributes
     """
+        A class students that defines a student by:
+        Attributes:
+            first_name (str): name of student.
+            last_name (str): name of student.
+            age (int): age of student.
+        Methods:
+            __init__ - initializes the Student instance.
+            to_json - retrieves dictionary repr of Student instance.
+            reload_from_json - replaces a;; attributes of Student instance.
+    """
+    def __init__(self, first_name, last_name, age):
+        """
+            Initialises Student instance.
+        """
+        self.first_name = first_name
+        self.last_name = last_name
+        self.age = age
 
-        for k, v in json.items():
-            setattr(self, k, v)
+    def to_json(self, attr=None):
+        """
+            retrieves a dictionary representation of Student.
+            Args:
+                attr (list): attribute names that are to be retrieved.
+        """
 
+        if attr is not None:
+            res = {k: self.__dict__[k] for k in self.__dict__.keys() & attr}
+            return res
+        else:
+            return self.__dict__
 
-
-
+    def reload_from_json(self, json):
+        """
+            replaces all attributes of the Student Instance.
+            Args:
+                json (dictionary): reload data.
+        """
+        for key, value in json.items():
+            self.__setattr__(key, value)
